@@ -41,7 +41,7 @@ public class UserService {
 
     }
 
-    public Usuario getUsers(long id,String token){
+    public Usuario getUser(long id,String token){
         try {
             jwtUser.ObtenerUsuario(token);
             Usuario u=  userRepo.findById(id).get();
@@ -81,21 +81,17 @@ public class UserService {
         }
     }
 
-    public Long obtenerIdSiLoginValido(String username, String password,String token) {
+    public Long obtenerIdSiTokenValido(String token) {
         try {
             Usuario userLogged = jwtUser.ObtenerUsuario(token);
-            Usuario user = userRepo.findByUsername(username);
-            if ((userLogged.getRole().equals("LOGGED")
-                    && passwordEncoder.matches(password, user.getPassword()) &&
-                    user.getUsername().equals(username))) {
-
-                user.setPassword("");
-                return user.getId();
+            if (userLogged != null && "LOGGED".equals(userLogged.getRole())) {
+                return userLogged.getId();
             } else {
                 return null;
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             return null;
         }
     }
+
 }

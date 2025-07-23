@@ -36,16 +36,16 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getUsers(@PathVariable long id, @RequestHeader("Authorization") String token ){
         token = token.replace("Bearer ", "");
-        Usuario u = userService.getUsers(id, token);
+        Usuario u = userService.getUser(id, token);
         if(u == null){
             return ResponseEntity.status(404).body("USUARIO NO ENCONTRADO");
         }
         return ResponseEntity.ok(u);
     }
     @GetMapping("/")
-    public ResponseEntity<?> getIdByUsernameAndPassword(@RequestParam String username, @RequestParam String password,  @RequestHeader("Authorization") String token) {
+    public ResponseEntity<?> getIdByUsernameAndPassword(@RequestHeader("Authorization") String token) {
         token = token.replace("Bearer ", "");
-        Long userId = userService.obtenerIdSiLoginValido(username, password,token);
+        Long userId = userService.obtenerIdSiTokenValido(token);
 
         if (userId != null) {
             return ResponseEntity.ok("ID del usuario: " + userId);
