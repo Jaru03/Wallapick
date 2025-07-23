@@ -40,10 +40,10 @@ public class Usuario {
     private List<Compra> compras = new ArrayList<>();
 
     @Transient
-    private String role;
+    private String role = "UNLOGGED";
 
 
-    public Usuario(Long id, String username, String password, String name, String lastname, String email, List<Producto> vendidos, List<Compra> compra, String role) {
+    public Usuario(Long id, String username, String password, String name, String lastname, String email, List<Producto> vendidos, List<Compra> compra) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -52,7 +52,6 @@ public class Usuario {
         this.email = email;
         this.vendidos = vendidos;
         this.compras = compra;
-        this.role = role;
     }
 
 
