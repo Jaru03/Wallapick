@@ -39,8 +39,11 @@ public class Usuario {
     @OneToMany(mappedBy = "comprador", orphanRemoval = true)
     private List<Compra> compras = new ArrayList<>();
 
+    @Transient
+    private String role;
 
-    public Usuario(Long id, String username, String password, String name, String lastname, String email, List<Producto> vendidos, List<Compra> compra) {
+
+    public Usuario(Long id, String username, String password, String name, String lastname, String email, List<Producto> vendidos, List<Compra> compra, String role) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -49,7 +52,9 @@ public class Usuario {
         this.email = email;
         this.vendidos = vendidos;
         this.compras = compra;
+        this.role = role;
     }
+
 
     public Usuario() {
     }
@@ -116,5 +121,13 @@ public class Usuario {
 
     public void setCompras(List<Compra> compras) {
         this.compras = compras;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
