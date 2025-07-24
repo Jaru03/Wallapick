@@ -38,15 +38,17 @@ public class Producto {
 
     // Vendedor (N:1)
     @ManyToOne
-    @JoinColumn(name = "id_vendedor", nullable = false)
+    @JoinColumn(name = "id_vendedor")
     private Usuario vendedor;
 
     // Compradores (M:N)
-    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "producto", orphanRemoval = true)
     private List<Compra> compras = new ArrayList<>();
 
+    private byte[] image;
 
-    public Producto(Long id, String nombre, String descripcion, CategoryEnum category, double precio, int stock, boolean enVenta, Date fechaPublicacion, Usuario vendedor, List<Compra> compras) {
+
+    public Producto(Long id, String nombre, String descripcion, CategoryEnum category, double precio, int stock, boolean enVenta, Date fechaPublicacion, Usuario vendedor, List<Compra> compras, byte[] image) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -58,6 +60,7 @@ public class Producto {
         this.vendedor = vendedor;
         this.compras = compras;
 
+        this.image = image;
     }
 
     public Producto() {
@@ -140,5 +143,13 @@ public class Producto {
     }
     public void setCompras(List<Compra> compras) {
         this.compras = compras;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 }
