@@ -7,6 +7,6 @@ import { CartPage } from './components/cart-page/cart-page';
 export const routes: Routes = [
     {path: "", component: HomePage},
     {path: "products", component: ProductsPage},
-    {path: "products/:id", component: ProductPage},
+    {path: "products/1", component: ProductPage},
     {path: "cart", component: CartPage},
 ];
