@@ -5,6 +5,7 @@ import Wallapick.Modelos.Usuario;
 import Wallapick.Repositorios.ProductoRepositorio;
 import Wallapick.Repositorios.UsuarioRepositorio;
 import Wallapick.Utils.JWTUser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,14 +14,14 @@ import java.util.List;
 
 @Service
 public class ProductoServicio {
-    private final ProductoRepositorio productoRepositorio;
-    private final UsuarioRepositorio usuarioRepositorio;
+    @Autowired
+    private  ProductoRepositorio productoRepositorio;
+    @Autowired
+    private  UsuarioRepositorio usuarioRepositorio;
+    @Autowired
     private JWTUser jwtUser;
 
-    public ProductoServicio(ProductoRepositorio productoRepositorio, UsuarioRepositorio usuarioRepositorio) {
-        this.productoRepositorio = productoRepositorio;
-        this.usuarioRepositorio = usuarioRepositorio;
-    }
+
 
     public List<Producto> buscarProductosPorNombreParcial(String nombreParcial) {
         return productoRepositorio.findByNombreContainingIgnoreCase(nombreParcial);

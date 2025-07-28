@@ -3,21 +3,21 @@ package Wallapick.Servicios;
 import Wallapick.Modelos.Usuario;
 import Wallapick.Repositorios.UsuarioRepositorio;
 import Wallapick.Utils.JWTUser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
 public class UserService {
-    private final UsuarioRepositorio userRepo;
-    private final PasswordEncoder passwordEncoder;
-    private JWTUser jwtUser;
+    @Autowired
+    private  UsuarioRepositorio userRepo ;
+    @Autowired
+    private  PasswordEncoder passwordEncoder;
+    @Autowired
+    private  JWTUser jwtUser;
 
-    public UserService(UsuarioRepositorio userRepo, PasswordEncoder passwordEncoder) {
-        this.userRepo = userRepo;
-        this.passwordEncoder = passwordEncoder;
-    }
+
     public String Register(Usuario user){
         Usuario existUser = userRepo.findByUsername(user.getUsername());
 
