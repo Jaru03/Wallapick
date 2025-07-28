@@ -1,9 +1,7 @@
 package Wallapick.Modelos;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.PastOrPresent;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Date;
 
@@ -14,36 +12,33 @@ public class Compra {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Comprador
-    @ManyToOne
-    @JoinColumn(name = "id_comprador", nullable = false)
-    private Usuario comprador;
-
-    // Producto comprado
-    @ManyToOne
-    @JoinColumn(name = "id_producto", nullable = false)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "producto_id")
     private Producto producto;
 
-    @Min(1)
-    private int cantidad;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "vendedor_id")
+    private Usuario vendedor;
 
-    @PastOrPresent
-    @Temporal(TemporalType.DATE)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "comprador_id")
+    private Usuario comprador;
+
+    @NotNull
+    @Temporal(TemporalType.TIMESTAMP) //mapea la fecha en formato yyyy-MM-dd HH:mm:ss
     private Date fechaCompra;
 
-    @Positive
-    private double precioTotal;
+    @NotNull
+    private double precioFinal;
 
-    public Compra(Long id, Usuario comprador, Producto producto, int cantidad, Date fechaCompra, double precioTotal) {
-        this.id = id;
-        this.comprador = comprador;
+    public Compra() {}
+
+    public Compra(Producto producto, Usuario vendedor, Usuario comprador, Date fechaCompra, double precioFinal) {
         this.producto = producto;
-        this.cantidad = cantidad;
+        this.vendedor = vendedor;
+        this.comprador = comprador;
         this.fechaCompra = fechaCompra;
-        this.precioTotal = precioTotal;
-    }
-    public Compra() {
-        // Constructor por defecto
+        this.precioFinal = precioFinal;
     }
 
     public Long getId() {
@@ -54,14 +49,6 @@ public class Compra {
         this.id = id;
     }
 
-    public Usuario getComprador() {
-        return comprador;
-    }
-
-    public void setComprador(Usuario comprador) {
-        this.comprador = comprador;
-    }
-
     public Producto getProducto() {
         return producto;
     }
@@ -70,12 +57,20 @@ public class Compra {
         this.producto = producto;
     }
 
-    public int getCantidad() {
-        return cantidad;
+    public Usuario getVendedor() {
+        return vendedor;
     }
 
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
+    public void setVendedor(Usuario vendedor) {
+        this.vendedor = vendedor;
+    }
+
+    public Usuario getComprador() {
+        return comprador;
+    }
+
+    public void setComprador(Usuario comprador) {
+        this.comprador = comprador;
     }
 
     public Date getFechaCompra() {
@@ -86,11 +81,11 @@ public class Compra {
         this.fechaCompra = fechaCompra;
     }
 
-    public double getPrecioTotal() {
-        return precioTotal;
+    public double getPrecioFinal() {
+        return precioFinal;
     }
 
-    public void setPrecioTotal(double precioTotal) {
-        this.precioTotal = precioTotal;
+    public void setPrecioFinal(double precioFinal) {
+        this.precioFinal = precioFinal;
     }
 }

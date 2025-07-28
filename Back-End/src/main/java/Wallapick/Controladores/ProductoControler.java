@@ -2,15 +2,17 @@ package Wallapick.Controladores;
 
 import Wallapick.Modelos.Producto;
 import Wallapick.Servicios.ProductoServicio;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/productos")
-public class ProductoControler {
+@RequestMapping("/producto")
 
+public class ProductoControler {
+    @Autowired
     private ProductoServicio productoServicio;
 
     @GetMapping("/buscar")
@@ -44,6 +46,7 @@ public class ProductoControler {
     @PostMapping("/")
     public ResponseEntity<?> createProduct(@RequestBody Producto producto, @RequestHeader("Authorization") String token){
         token = token.replace("Bearer ", "");
+
         int resultado = productoServicio.createProduct(producto, token);
 
         if (resultado == 0) {

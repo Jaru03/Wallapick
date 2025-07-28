@@ -3,9 +3,8 @@ package Wallapick.Modelos;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 public class Producto {
@@ -20,15 +19,11 @@ public class Producto {
     @Column(length = 1000)
     private String descripcion;
 
-    @Enumerated(EnumType.STRING)
     @NotNull
-    private CategoryEnum category;
+    private String category; //No enum puesto que al recibirlo de front, se recibira desde un checkbox
 
     @Positive
     private double precio;
-
-    @Min(0)
-    private int stock;
 
     private boolean enVenta = true;
 
@@ -36,34 +31,31 @@ public class Producto {
     @Temporal(TemporalType.DATE)
     private Date fechaPublicacion = new Date();
 
-    // Vendedor (N:1)
     @ManyToOne
-    @JoinColumn(name = "id_vendedor")
+    @JoinColumn(name = "id_vendedor", nullable = false)
     private Usuario vendedor;
 
-    // Compradores (M:N)
-    @OneToMany(mappedBy = "producto", orphanRemoval = true)
-    private List<Compra> compras = new ArrayList<>();
+    // Relación 1:1 con Compra (un producto puede ser comprado una sola vez)
+    @OneToOne(mappedBy = "producto", cascade = CascadeType.ALL)
+    private Compra compra;
 
-    private byte[] image;
+    //private byte[] image;
 
+    private String estado; //No enum puesto que al recibirlo de front, se recibira desde un checkbox
 
-    public Producto(Long id, String nombre, String descripcion, CategoryEnum category, double precio, int stock, boolean enVenta, Date fechaPublicacion, Usuario vendedor, List<Compra> compras, byte[] image) {
+    public Producto() {
+    }
+    public Producto(Long id, String nombre, String descripcion, String category, double precio, boolean enVenta, Date fechaPublicacion, Usuario vendedor /*,byte[] image */, String estado) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.category = category;
         this.precio = precio;
-        this.stock = stock;
         this.enVenta = enVenta;
         this.fechaPublicacion = fechaPublicacion;
         this.vendedor = vendedor;
-        this.compras = compras;
-
-        this.image = image;
-    }
-
-    public Producto() {
+        //this.image = image;
+        this.estado = estado;
     }
 
     public Long getId() {
@@ -90,11 +82,11 @@ public class Producto {
         this.descripcion = descripcion;
     }
 
-    public CategoryEnum getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(CategoryEnum category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 
@@ -104,14 +96,6 @@ public class Producto {
 
     public void setPrecio(double precio) {
         this.precio = precio;
-    }
-
-    public int getStock() {
-        return stock;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
     }
 
     public boolean isEnVenta() {
@@ -138,13 +122,7 @@ public class Producto {
         this.vendedor = vendedor;
     }
 
-    public List<Compra> getCompras() {
-        return compras;
-    }
-    public void setCompras(List<Compra> compras) {
-        this.compras = compras;
-    }
-
+/*
     public byte[] getImage() {
         return image;
     }
@@ -152,4 +130,14 @@ public class Producto {
     public void setImage(byte[] image) {
         this.image = image;
     }
+*/
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+
 }

@@ -3,7 +3,6 @@ package Wallapick.Modelos;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
 import java.util.ArrayList;
@@ -33,17 +32,22 @@ public class Usuario {
     @NotBlank
     private String email;
 
-    @OneToMany(mappedBy = "vendedor", orphanRemoval = true)
+    // Productos vendidos
+    @OneToMany(mappedBy = "vendedor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Producto> vendidos = new ArrayList<>();
 
-    @OneToMany(mappedBy = "comprador", orphanRemoval = true)
-    private List<Compra> compras = new ArrayList<>();
+    // Compras realizadas
+    @OneToMany(mappedBy = "comprador", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Compra>compras = new ArrayList<>();
 
     @Transient
     private String role = "UNLOGGED";
 
+    // Constructor vacío y getters/setters omitidos por brevedad...
 
-    public Usuario(Long id, String username, String password, String name, String lastname, String email, List<Producto> vendidos, List<Compra> compra) {
+    public Usuario() {}
+
+    public Usuario(Long id, String username, String password, String name, String lastname, String email, List<Producto> vendidos, List<Compra> compras, String role) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -51,11 +55,8 @@ public class Usuario {
         this.lastname = lastname;
         this.email = email;
         this.vendidos = vendidos;
-        this.compras = compra;
-    }
-
-
-    public Usuario() {
+        this.compras = compras;
+        this.role = role;
     }
 
     public Long getId() {
@@ -129,4 +130,20 @@ public class Usuario {
     public void setRole(String role) {
         this.role = role;
     }
+
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", email='" + email + '\'' +
+                ", vendidos=" + vendidos +
+                ", compras=" + compras +
+                ", role='" + role + '\'' +
+                '}';
+    }
 }
+

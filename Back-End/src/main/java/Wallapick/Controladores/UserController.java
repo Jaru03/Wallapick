@@ -2,6 +2,7 @@ package Wallapick.Controladores;
 
 import Wallapick.Modelos.Usuario;
 import Wallapick.Servicios.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,12 +11,14 @@ import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 @RestController
 @RequestMapping("/user")
 public class UserController {
+
+    @Autowired
     private UserService userService;
 
     @PostMapping("/")
     public  ResponseEntity<?> registerUser(@RequestBody Usuario user){
         if(userService.Register(user).equalsIgnoreCase("REGISTRADO")){
-            return ResponseEntity.ok("Usuario registrado correctamente" + user);
+            return ResponseEntity.ok("Usuario registrado correctamente");
         } else if (userService.Register(user).equalsIgnoreCase("EXISTE")) {
             return ResponseEntity.status(409).body("El usuario ya existe");
         }
@@ -30,7 +33,7 @@ public class UserController {
         if(respuesta.equalsIgnoreCase("ACCESO DENEGADO")){
             return ResponseEntity.status(404).body("USUARIO NO ENCONTRADO O CONTRASEÑA INCORRECTA");
         }
-        return ResponseEntity.ok("Bienvenido " + respuesta);
+        return ResponseEntity.ok("Bienvenido, su token es ---->   " + respuesta);
     }
 
     @GetMapping("/{id}")
