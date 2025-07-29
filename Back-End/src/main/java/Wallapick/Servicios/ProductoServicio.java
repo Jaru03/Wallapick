@@ -73,20 +73,19 @@ public class ProductoServicio {
         return productoRepositorio.findAll();
     }
 
-    public int deleteProduct(Long id,String token){
-        try{
+    public int deleteProduct(long id, String token) {
+        try {
             Usuario usuario = jwtUser.ObtenerUsuario(token);
-            if (usuario.getRole().equalsIgnoreCase("LOGGED")) {
-                Producto producto = productoRepositorio.findById(id).orElse(null);
-                if (producto != null && producto.getVendedor().getId().equals(usuario.getId())) {
-                    productoRepositorio.delete(producto);
-                    return 1; // éxito
-                }
+            Producto producto = productoRepositorio.findById(id).orElse(null);
 
+            if (producto != null && usuario.getRole().equalsIgnoreCase("LOGGED") && producto.getVendedor().getId().equals(usuario.getId())) {
+                productoRepositorio.delete(producto);
+                return 1; // éxito
             }
-            return 0; // producto no encontrado o no pertenece al usuario
+
+            return 0; // no se pudo eliminar
         } catch (Exception e) {
-            return -1;
+            return -1; // error interno
         }
     }
 
